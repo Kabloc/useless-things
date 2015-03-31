@@ -1,1 +1,2 @@
-# useless-things
+# Useless-things
+Como o nome já diz coisas sem muita ultilidade, apenas testes...
