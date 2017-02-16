@@ -1,103 +1,101 @@
 #include "matrix.h"
-#include <stdio.h>
+#include <iostream>
 
-Sudoku::Matrix::Matrix()
+sudoku::matrix::matrix()
 {
   int line, column;
-  cursor=0;
+  _cursor=0;
   for(line=0; line<9; line++)
     for(column=0; column<9; column++)
-      mtx[line][column] = new Number(line,column);
+      _mtx[line][column] = new number(line,column);
 }
 
-Sudoku::Matrix::Matrix(int mtx[9][9])
+sudoku::matrix::matrix(unsigned int mtx[9][9])
 {
   int line, column;
-  cursor=0;
+  _cursor=0;
   for(line=0; line<9; line++)
     for(column=0; column<9; column++)
-      this->mtx[line][column] = new Number(line, column, mtx[line][column]);
+      this->_mtx[line][column] = new number(line, column, mtx[line][column]);
 }
 
-Sudoku::Matrix::~Matrix()
+sudoku::matrix::~matrix()
 {
-  int line, column;
+  unsigned int line, column;
   for(line=0; line<9; line++)
     for(column=0; column<9; column++)
-      delete this->mtx[line][column];
+      delete this->_mtx[line][column];
 }
 
-void Sudoku::Matrix::printMatrix()
+void sudoku::matrix::print()
 {
   int line, column;
   for(line=0; line<9; line++){
     if(line==0 || line==3 || line==6)
-      printf("|-------+-------+-------|\n");
+      std::cout << "|-------+-------+-------|\n";
     for(column=0; column<9; column++){
       if(column==0)
-        printf("|");
+        std::cout << "|";
       if(column==2 || column==5)
-        printf(" %d |", mtx[line][column]->getVal());
+        std::cout << " " << _mtx[line][column]->get_val() << " |";
       else
-        printf(" %d", mtx[line][column]->getVal());
+        std::cout << " " << _mtx[line][column]->get_val();
       if(column==8)
-        printf(" |");
+        std::cout << " |";
     }
     if(line==8)
-      printf("\n|-------+-------+-------|\n");
+      std::cout << "\n|-------+-------+-------|\n";
       
-    printf("\n");
+    std::cout << "\n";
   }
   
 }
 
-bool Sudoku::Matrix::addNumber(int line, int colunm, int value){
-  return mtx[line][colunm]->setVal(value);
+bool sudoku::matrix::add_number(unsigned int line, unsigned int colunm, unsigned int value){
+  return _mtx[line][colunm]->set_val(value);
 }
 
-bool Sudoku::Matrix::solve(int idx)
+bool sudoku::matrix::solve(unsigned int idx)
 {
-  int num;
-  int possibles;
-  Number **linear = mtx[0];
+  unsigned int num;
+  unsigned int possibles;
+  number **linear = _mtx[0];
 
   if(idx==-1){
-    printf("this is the end\n");
+    std::cout << "this is the end\n";
     return true;
   }
 
   if(idx==-2)
-    idx=getNext(0);
+    idx=get_next(0);
 
-  possibles=linear[idx]->getPossibles();
-  printf("possibles:0x%x\n", possibles);
+  possibles=linear[idx]->get_possibles();
+  std::cout << "possibles:0x" << std::hex << possibles << std::endl;
 
-  if (possibles){
-    for(num=1;num<=9;num++){
-      if(possibles&Number::numbers[num])
-        printf("tryng adding %d in idx %d ...\n", num, idx);
-      if((possibles&Number::numbers[num])&&linear[idx]->setVal(num)&&(solve(getNext(idx))))
-        return true;
-    }
+  for(num=1;num<=9;num++){
+    if(possibles&number::_numbers[num])
+      std::cout << "tryng adding " << num << " in idx " << idx << " ...\n";
+    if((possibles&number::_numbers[num])&&linear[idx]->set_val(num)&&(solve(get_next(idx))))
+      return true;
   }
 
-  linear[idx]->setVal(0);
-  printf("failed idx:%d\n", idx);
+  linear[idx]->set_val(0);
+  std::cout << "failed idx:" << idx << std::endl;
   return false;
 }
 
-int Sudoku::Matrix::getNext(const int cursor)
+unsigned int sudoku::matrix::get_next(const unsigned int cursor)
 {
-  int idx, ret=-1, minor=1000, count, possibles;
-  Number **linear = mtx[0];
+  unsigned int idx, ret=-1, minor=1000, count, possibles;
+  number **linear = _mtx[0];
 
   idx=(cursor==80)?0:cursor+1;
   for(;idx!=cursor;idx++){
-    if(!linear[idx]->getValid()){
-      possibles = linear[idx]->getPossibles();
+    if(!linear[idx]->get_valid()){
+      possibles = linear[idx]->get_possibles();
       count=0;
-      for(int x=1;x<=9;x++){
-        if(possibles&Number::numbers[x]){
+      for(unsigned int x=1;x<=9;x++){
+        if(possibles&number::_numbers[x]){
           count++;
         }
       }
@@ -108,7 +106,7 @@ int Sudoku::Matrix::getNext(const int cursor)
     }
     if(idx==80) idx=-1;
   }
-  printf("\n\nidx:%d, count:%d\n", idx, count);
+  std::cout << "\n\nidx:" << idx << ", count:" << count << std::endl;
   return ret;
 }
 
@@ -124,8 +122,8 @@ int main(int argc, char* argv[])
 //                    {0,0,5,6,7,0,1,0,2},
 //                    {8,3,0,2,0,0,0,0,5}};
 
-  Sudoku::Matrix* pmtx;
-  int imtx[9][9] = {{0,0,0,0,0,5,4,0,3},
+ sudoku::matrix* pmtx;
+  unsigned int imtx[9][9] = {{0,0,0,0,0,5,4,0,3},
                     {0,7,4,6,1,3,0,5,0},
                     {0,5,0,0,0,0,1,0,0},
                     {0,0,0,0,0,8,0,0,5},
@@ -135,16 +133,16 @@ int main(int argc, char* argv[])
                     {0,4,0,5,2,7,9,1,0},
                     {2,0,5,8,0,0,0,0,0}};
 
-  pmtx = new Sudoku::Matrix(imtx);
+  pmtx = new sudoku::matrix(imtx);
 
-  pmtx->printMatrix();
+  pmtx->print();
 
   if(pmtx->solve()){
-    printf("Sucesso!!!!\n");
-    pmtx->printMatrix();
+    std::cout << "Sucesso!!!!\n";
+    pmtx->print();
   }
   else{
-    printf("Naum deu.\n");
+    std::cout << "Naum deu.\n";
   }
   return 0;
 }

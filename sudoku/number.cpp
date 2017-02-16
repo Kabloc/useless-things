@@ -1,93 +1,62 @@
 #include "number.h"
 #include <stdio.h>
+#include <stdlib.h>
 
-/*static*/ const Sudoku::Number::value Sudoku::Number::numbers[] = {Sudoku::Number::num_0, Sudoku::Number::num_1,
-                                                                    Sudoku::Number::num_2, Sudoku::Number::num_3, 
-                                                                    Sudoku::Number::num_4, Sudoku::Number::num_5, 
-                                                                    Sudoku::Number::num_6, Sudoku::Number::num_7, 
-                                                                    Sudoku::Number::num_8, Sudoku::Number::num_9};
+/*static*/ const sudoku::number::value sudoku::number::_numbers[] = {sudoku::number::num_0, sudoku::number::num_1,
+                                                                     sudoku::number::num_2, sudoku::number::num_3,
+                                                                     sudoku::number::num_4, sudoku::number::num_5,
+                                                                     sudoku::number::num_6, sudoku::number::num_7,
+                                                                     sudoku::number::num_8, sudoku::number::num_9};
 
-int Sudoku::Number::vct_line[9] = {0};
-int Sudoku::Number::vct_column[9] = {0};
-int Sudoku::Number::vct_square[9] = {0};
+uint16_t sudoku::number::_line[9] = {0};
+uint16_t sudoku::number::_column[9] = {0};
+uint16_t sudoku::number::_square[9] = {0};
 
-Sudoku::Number::Number(int line, int column, int val)
+sudoku::number::number(unsigned int line, unsigned int column, unsigned int val)
+    : _my_line(line)
+    , _my_column(column)
+    , _my_val(0)
 {
-  if(line>=0&&line<=2){
-    if(column>=0&&column<=2)
-      this->square = 0;
-    else if(column>=3&&column<=5)
-      this->square = 1;
-    else if(column>=6&&column<=8)
-      this->square = 2;
-    else
-      this->square = -1;
-  }
-  else if(line>=3&&line<=5){
-    if(column>=0&&column<=2)
-      this->square = 3;
-    else if(column>=3&&column<=5)
-      this->square = 4;
-    else if(column>=6&&column<=8)
-      this->square = 5;
-    else
-      this->square = -1;
-  }
-  else if(line>=6&&line<=8){
-    if(column>=0&&column<=2)
-      this->square = 6;
-    else if(column>=3&&column<=5)
-      this->square = 7;
-    else if(column>=6&&column<=8)
-      this->square = 8;
-    else
-      this->square = -1;
-  }
-  else
-    this->square = -1;
-
-  this->line = line;
-  this->column = column;
-  this->val=0;
-  setVal(val); 
-  if(val!=0)valid=true;
+  this->_my_square = (abs((line%3)-line)/3)*3+(abs((column%3)-column)/3);
+  set_val(val);
+  //if(val!=0)valid=true;
 }
 
-int Sudoku::Number::getVal(){
-  return val;
+unsigned int sudoku::number::get_val(){
+  return _my_val;
 }
 
-bool Sudoku::Number::validation(int val){
-  return (valid = (val)?(!((vct_line[line] | vct_column[column] | vct_square[square]) & numbers[val])):false);
+bool sudoku::number::validation(unsigned int val){
+  return (_valid = (val)?(!((_line[_my_line] | _column[_my_column] | _square[_my_square]) & _numbers[val])):false);
 }
 
-int Sudoku::Number::getPossibles()
+unsigned int sudoku::number::get_possibles()
 {
-  int possibles;
+  unsigned int possibles;
 
-  possibles = (vct_line[line] | vct_column[column] | vct_square[square]);
-  if(!valid) possibles &= ~numbers[val];
+  possibles = (_line[_my_line] | _column[_my_column] | _square[_my_square]);
+  if(!_valid) possibles &= ~_numbers[_my_val];
 
   return 0x1FF & ~(possibles);
 }
 
-bool Sudoku::Number::setVal(int val)
+bool sudoku::number::set_val(unsigned int val)
 {
 
-  vct_line[line] &= ~numbers[this->val];
-  vct_column[column] &= ~numbers[this->val];
-  vct_square[square] &= ~numbers[this->val];
+  _line[_my_line] &= ~_numbers[_my_val];
+  _column[_my_column] &= ~_numbers[_my_val];
+  _square[_my_square] &= ~_numbers[_my_val];
 
   validation(val);
 
-  vct_line[line] |= numbers[val];
-  vct_column[column] |= numbers[val];
-  vct_square[square] |= numbers[val];
+  _line[_my_line] |= _numbers[val];
+  _column[_my_column] |= _numbers[val];
+  _square[_my_square] |= _numbers[val];
 
-  this->val = val;
-  return valid;
+  _my_val = val;
+  return _valid;
 }
 
-bool Sudoku::Number::getValid(){
-  return valid;
+bool sudoku::number::get_valid(){
+  return _valid;
 }

@@ -1,9 +1,10 @@
 #ifndef SUDOKU_NUMBER_H
 #define SUDOKU_NUMBER_H
+#include <stdint.h>
 
-namespace Sudoku
+namespace sudoku
 {
-  class Number 
+  class number
   {
   public:
     enum value{
@@ -19,21 +20,21 @@ namespace Sudoku
       num_9 = 0x100
     };
 
-    static const value numbers[10];
+    static const value _numbers[10];
 
   private:
-    static int vct_line[9], vct_column[9], vct_square[9];
-    int val, line, column, square;
-    bool valid;
+    static uint16_t _line[9], _column[9], _square[9];
+    int _my_val, _my_line, _my_column, _my_square;
+    bool _valid;
 
-    bool validation(int);
+    bool validation(unsigned int);
 
   public:
-    Number(int, int, int=0);
-    int getPossibles();
-    int getVal();
-    bool setVal(int);
-    bool getValid();
+    number(unsigned int, unsigned int, unsigned int=0);
+    unsigned int get_possibles();
+    unsigned int get_val();
+    bool set_val(unsigned int);
+    bool get_valid();
   };
 }
 #endif  //SUDOKU_NUMBER_H

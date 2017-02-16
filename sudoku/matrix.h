@@ -1,21 +1,21 @@
 #include "number.h"
 
-namespace Sudoku
+namespace sudoku
 {
-  class Matrix
+  class matrix
   {
   private:
-    Number* mtx[9][9];
-    int cursor;
+    number* _mtx[9][9];
+    unsigned int _cursor;
 
   public:
-    Matrix();
-    Matrix(int[9][9]);
-    ~Matrix();
+    matrix();
+    matrix(unsigned int[9][9]);
+    ~matrix();
 
-    void printMatrix();
-    bool addNumber(int, int, int);
-    bool solve(int=-2);
-    int getNext(const int=0);
+    void print();
+    bool add_number(unsigned int, unsigned int, unsigned int);
+    bool solve(unsigned int=-2);
+    unsigned int get_next(const unsigned int=0);
   };
 }
