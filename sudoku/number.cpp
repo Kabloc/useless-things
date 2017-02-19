@@ -13,50 +13,50 @@ uint16_t sudoku::number::_column[9] = {0};
 uint16_t sudoku::number::_square[9] = {0};
 
 sudoku::number::number(unsigned int line, unsigned int column, unsigned int val)
-    : _my_line(line)
-    , _my_column(column)
-    , _my_val(0)
+   : _my_line(line)
+   , _my_column(column)
+   , _my_val(0)
 {
-  this->_my_square = (abs((line%3)-line)/3)*3+(abs((column%3)-column)/3);
-  set_val(val);
-  //if(val!=0)valid=true;
+	this->_my_square = (abs((line%3)-line)/3)*3+(abs((column%3)-column)/3);
+	set_val(val);
+	//if(val!=0)valid=true;
 }
 
 unsigned int sudoku::number::get_val(){
-  return _my_val;
+	return _my_val;
 }
 
 bool sudoku::number::validation(unsigned int val){
-  return (_valid = (val)?(!((_line[_my_line] | _column[_my_column] | _square[_my_square]) & _numbers[val])):false);
+	return (_valid = (val)?(!((_line[_my_line] | _column[_my_column] | _square[_my_square]) & _numbers[val])):false);
 }
 
 unsigned int sudoku::number::get_possibles()
 {
-  unsigned int possibles;
+	unsigned int possibles;
 
-  possibles = (_line[_my_line] | _column[_my_column] | _square[_my_square]);
-  if(!_valid) possibles &= ~_numbers[_my_val];
+	possibles = (_line[_my_line] | _column[_my_column] | _square[_my_square]);
+	if(!_valid) possibles &= ~_numbers[_my_val];
 
-  return 0x1FF & ~(possibles);
+	return 0x1FF & ~(possibles);
 }
 
 bool sudoku::number::set_val(unsigned int val)
 {
 
-  _line[_my_line] &= ~_numbers[_my_val];
-  _column[_my_column] &= ~_numbers[_my_val];
-  _square[_my_square] &= ~_numbers[_my_val];
+	_line[_my_line] &= ~_numbers[_my_val];
+	_column[_my_column] &= ~_numbers[_my_val];
+	_square[_my_square] &= ~_numbers[_my_val];
 
-  validation(val);
+	validation(val);
 
-  _line[_my_line] |= _numbers[val];
-  _column[_my_column] |= _numbers[val];
-  _square[_my_square] |= _numbers[val];
+	_line[_my_line] |= _numbers[val];
+	_column[_my_column] |= _numbers[val];
+	_square[_my_square] |= _numbers[val];
 
-  _my_val = val;
-  return _valid;
+	_my_val = val;
+	return _valid;
 }
 
 bool sudoku::number::get_valid(){
-  return _valid;
+	return _valid;
 }
