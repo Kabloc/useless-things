@@ -12,7 +12,7 @@ uint16_t sudoku::number::_line[9] = {0};
 uint16_t sudoku::number::_column[9] = {0};
 uint16_t sudoku::number::_square[9] = {0};
 
-sudoku::number::number(unsigned int line, unsigned int column, unsigned int val)
+sudoku::number::number(uint16_t line, uint16_t column, uint16_t val)
    : _my_line(line)
    , _my_column(column)
    , _my_val(0)
@@ -22,7 +22,7 @@ sudoku::number::number(unsigned int line, unsigned int column, unsigned int val)
 	//if(val!=0)valid=true;
 }
 
-unsigned int sudoku::number::get_val(){
+uint16_t sudoku::number::get_val(){
 	return _my_val;
 }
 
@@ -30,9 +30,9 @@ bool sudoku::number::validation(unsigned int val){
 	return (_valid = (val)?(!((_line[_my_line] | _column[_my_column] | _square[_my_square]) & _numbers[val])):false);
 }
 
-unsigned int sudoku::number::get_possibles()
+uint16_t sudoku::number::get_possibles()
 {
-	unsigned int possibles;
+	uint16_t possibles;
 
 	possibles = (_line[_my_line] | _column[_my_column] | _square[_my_square]);
 	if(!_valid) possibles &= ~_numbers[_my_val];
@@ -40,9 +40,8 @@ unsigned int sudoku::number::get_possibles()
 	return 0x1FF & ~(possibles);
 }
 
-bool sudoku::number::set_val(unsigned int val)
+bool sudoku::number::set_val(uint16_t val)
 {
-
 	_line[_my_line] &= ~_numbers[_my_val];
 	_column[_my_column] &= ~_numbers[_my_val];
 	_square[_my_square] &= ~_numbers[_my_val];

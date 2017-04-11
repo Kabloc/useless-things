@@ -46,8 +46,8 @@ bool sudoku::matrix::add_number(unsigned int line, unsigned int colunm, unsigned
 
 bool sudoku::matrix::solve(unsigned int idx)
 {
-	unsigned int num;
-	unsigned int possibles;
+	uint16_t num;
+	uint16_t possibles;
 	number **linear = _mtx[0];
 
 	if(idx==-1){

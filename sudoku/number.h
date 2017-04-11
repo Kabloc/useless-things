@@ -24,16 +24,16 @@ public:
 
 private:
 	static uint16_t _line[9], _column[9], _square[9];
-	int _my_val, _my_line, _my_column, _my_square;
+	uint16_t _my_val, _my_line, _my_column, _my_square;
 	bool _valid;
 
 	bool validation(unsigned int);
 
 public:
-	number(unsigned int, unsigned int, unsigned int=0);
-	unsigned int get_possibles();
-	unsigned int get_val();
-	bool set_val(unsigned int);
+	number(uint16_t, uint16_t, uint16_t=0);
+	uint16_t get_possibles();
+	uint16_t get_val();
+	bool set_val(uint16_t);
 	bool get_valid();
 };
 }

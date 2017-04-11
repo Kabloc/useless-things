@@ -6,7 +6,7 @@ class matrix
 {
 private:
 	number* _mtx[9][9];
-	unsigned int _cursor;
+	uint16_t _cursor;
 
 public:
 	matrix();
