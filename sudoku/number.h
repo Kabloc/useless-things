@@ -6,6 +6,7 @@ namespace sudoku
 {
 class number
 {
+	friend class matrix;
 public:
 	enum value{
 		num_0 = 0x0,
@@ -29,7 +30,7 @@ private:
 
 	bool validation(unsigned int);
 
-public:
+//public:
 	number(uint16_t, uint16_t, uint16_t=0);
 	uint16_t get_possibles();
 	uint16_t get_val();

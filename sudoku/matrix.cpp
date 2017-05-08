@@ -4,40 +4,34 @@
 sudoku::matrix::matrix()
 {
 	int line, column;
-	_cursor=0;
 	for(line=0; line<9; line++)
 		for(column=0; column<9; column++)
-			_mtx[line][column] = new number(line,column);
+			_mtx[line][column] = std::shared_ptr<number>(new number(line, column));
 }
 
 sudoku::matrix::matrix(unsigned int mtx[9][9])
 {
 	int line, column;
-	_cursor=0;
 	for(line=0; line<9; line++)
 		for(column=0; column<9; column++)
-			this->_mtx[line][column] = new number(line, column, mtx[line][column]);
+			this->_mtx[line][column] = std::shared_ptr<number>(new number(line, column, mtx[line][column]));
 }
 
 sudoku::matrix::~matrix()
-{
-	unsigned int line, column;
-	for(line=0; line<9; line++)
-		for(column=0; column<9; column++)
-			delete this->_mtx[line][column];
-}
+{ }
 
 void sudoku::matrix::print()
 {
-	int line, column;
-	for(line=0; line<9; line++){
-		if(line==0 || line==3 || line==6) std::cout << "|-------+-------+-------|\n";
-		for(column=0; column<9; column++)
-			std::cout << ((column==0)?"|":"") << " " << _mtx[line][column]->get_val() << ((column==2 || column==5 || column==8)?" |":"");
-		if(line==8) std::cout << "\n|-------+-------+-------|\n";
+	int idx = 0;
+	for (const auto line : _mtx) {
+		if (!(idx%27)) std::cout << "|-------+-------+-------|" << std::endl;
+		for (const auto column : line) {
+			std::cout << (!(idx%9)?"| ":" ") << column->get_val() << (((idx%3)==2)?" |":"");
+			idx++;
+		}
 		std::cout << std::endl;
 	}
-
+	std::cout << "|-------+-------+-------|" << std::endl;
 }
 
 bool sudoku::matrix::add_number(unsigned int line, unsigned int colunm, unsigned int value){
@@ -48,9 +42,8 @@ bool sudoku::matrix::solve(unsigned int idx)
 {
 	uint16_t num;
 	uint16_t possibles;
-	number **linear = _mtx[0];
 
-	if(idx==-1){
+	if(idx==-1) {
 		std::cout << "this is the end\n";
 		return true;
 	}
@@ -58,17 +51,18 @@ bool sudoku::matrix::solve(unsigned int idx)
 	if(idx==-2)
 		idx=get_next(0);
 
-	possibles=linear[idx]->get_possibles();
+	int l = idx/9, c = idx-(l*9);
+	possibles=_mtx[l][c]->get_possibles();
 	std::cout << "possibles:0x" << std::hex << possibles << std::endl;
 
-	for(num=1;num<=9;num++){
+	for(num=1;num<=9;num++) {
 		if(possibles&number::_numbers[num])
 			std::cout << "tryng adding " << num << " in idx " << idx << " ...\n";
-		if((possibles&number::_numbers[num])&&linear[idx]->set_val(num)&&(solve(get_next(idx))))
+		if((possibles & number::_numbers[num]) && _mtx[l][c]->set_val(num) && (solve(get_next(idx))))
 			return true;
 	}
 
-	linear[idx]->set_val(0);
+	_mtx[l][c]->set_val(0);
 	std::cout << "failed idx:" << idx << std::endl;
 	return false;
 }
@@ -76,16 +70,16 @@ bool sudoku::matrix::solve(unsigned int idx)
 unsigned int sudoku::matrix::get_next(const unsigned int cursor)
 {
 	unsigned int idx, ret=-1, minor=1000, count, possibles;
-	number **linear = _mtx[0];
 
 	idx=(cursor==80)?0:cursor+1;
-	for(;idx!=cursor;idx++){
-		if(!linear[idx]->get_valid()){
-			possibles = linear[idx]->get_possibles();
+	for(;idx!=cursor;idx++) {
+		int l = idx/9, c = idx-(l*9);
+		if(!_mtx[l][c]->get_valid()) {
+			possibles = _mtx[l][c]->get_possibles();
 			count=0;
 			for(unsigned int x=1;x<=9;x++)
 				if(possibles&number::_numbers[x]) count++;
-			if(minor>count){
+			if(minor>count) {
 				minor=count;
 				ret=idx;
 			}
