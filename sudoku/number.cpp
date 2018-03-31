@@ -2,11 +2,12 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-/*static*/ const sudoku::number::value sudoku::number::_numbers[] = {sudoku::number::num_0, sudoku::number::num_1,
-                                                                     sudoku::number::num_2, sudoku::number::num_3,
-                                                                     sudoku::number::num_4, sudoku::number::num_5,
-                                                                     sudoku::number::num_6, sudoku::number::num_7,
-                                                                     sudoku::number::num_8, sudoku::number::num_9};
+/*static*/ const sudoku::number::value sudoku::number::_numbers[] = 
+{sudoku::number::num_0, sudoku::number::num_1,
+ sudoku::number::num_2, sudoku::number::num_3,
+ sudoku::number::num_4, sudoku::number::num_5,
+ sudoku::number::num_6, sudoku::number::num_7,
+ sudoku::number::num_8, sudoku::number::num_9};
 
 uint16_t sudoku::number::_line[9] = {0};
 uint16_t sudoku::number::_column[9] = {0};

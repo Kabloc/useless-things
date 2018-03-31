@@ -69,7 +69,7 @@ bool sudoku::matrix::solve(unsigned int idx)
 
 unsigned int sudoku::matrix::get_next(const unsigned int cursor)
 {
-	unsigned int idx, ret=-1, minor=1000, count, possibles;
+	unsigned int idx, ret=-1, minor=1000, count=0, possibles;
 
 	idx=(cursor==80)?0:cursor+1;
 	for(;idx!=cursor;idx++) {

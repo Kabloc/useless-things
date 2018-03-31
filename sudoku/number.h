@@ -9,16 +9,11 @@ class number
 	friend class matrix;
 public:
 	enum value{
-		num_0 = 0x0,
-		num_1 = 0x1,
-		num_2 = 0x2,
-		num_3 = 0x4,
-		num_4 = 0x8,
-		num_5 = 0x10,
-		num_6 = 0x20,
-		num_7 = 0x40,
-		num_8 = 0x80,
-		num_9 = 0x100
+		num_0 = 0x0,  num_1 = 0x1,
+		num_2 = 0x2,  num_3 = 0x4,
+		num_4 = 0x8,  num_5 = 0x10,
+		num_6 = 0x20, num_7 = 0x40,
+		num_8 = 0x80, num_9 = 0x100
 	};
 
 	static const value _numbers[10];

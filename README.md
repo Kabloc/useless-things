@@ -1,16 +1,21 @@
 # Useless-things
 
-Como o nome já diz coisas sem muita ultilidade, apenas testes... :+1:
+As the name already say, things with really low utility, just tests... :+1:
 
 ### Sudoku:
 
-Uma brincadeira de criança, na epoca de faculdade, em 2007, fizemos uma brincadeira em que todos teriam que fazer um programa que resolvesse o Sudoku.
+A child play, at my university in 2007, we did a challenge between the students: Who is able to do an algorithm that solves a sudoku table?
 
-Esta brincadeira me fez jogar isso por um bom tempo e acabei entendendo como o cerebro trabalha para resolver.
-Quando você olha para um espaço no jogo você deve olhar para: 
+That challenge made me play sudoku for a long time, to understand how my brain works to solve it.
+When you look at a space on sudoku table you have to think about:
 
-* Linha
-* Coluna
+* Line
+* Column 
 * Square
 
-Então eu pensei em cada vez que fosse setado um numero no espaço todos os outros espaços deveriam ficar sabendo.
+So I thought, always when you set a number on table space, all spaces (in line, column and square) have to know. Read the code and see how I thought to do that. :simple_smile: 
+
+### Evaluation:
+
+
+I decided to make an evaluation for simple mathematical expressions with only the four basic operations (+, -, *, /) and parentheses.
