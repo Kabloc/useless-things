@@ -1,3 +1,9 @@
+/****
+**  This is only a test to make an evaluation without extern 
+**  frameworks like boost.spirit and others as said in the 
+**  repository name "useless things" 
+*/
+
 #include <functional>
 #include <iostream>
 #include <sstream>
