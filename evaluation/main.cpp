@@ -183,7 +183,8 @@ private:
 		} while (true);
 		if (!verify_signal()) 
 		{ return false; }
-		if (tks.size() < 3) return solve(tks, result);
+		if (tks.size() < 3) 
+		{ return solve(tks, result); }
 		// Looking for */ operators
 		do {
 			for (act = tks.begin(); act != tks.end(); act++) {
